@@ -61,14 +61,12 @@ const AuthForm = ({ onSuccess }) => {
                     {isSigningIn ? 'Sign In' : 'Sign Up'}
                 </h2>
 
-                {/* Username Input */}
+                {/* Email Input */}
                 <input
-                    type="text"
-                    placeholder="Username"
-                    className="input"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    autoCapitalize="none"
+                    type="email"
+                    id="email_input"
+                    name="user_email"
+                    placeholder="you@example.com"
                     required
                 />
 
