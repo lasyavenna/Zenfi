@@ -14,7 +14,7 @@ const styles = {
         borderRadius: '10px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
         width: '100%',
-        maxWidth: '4000px',
+        maxWidth: '400px',
     },
     title: {
         fontSize:'28px',
@@ -122,7 +122,7 @@ const AuthForm = ({ onSuccess }) => {
                     style={{
                         ...styles.button,
                         // Apply hover style if state is true
-                        ...AuthForm(isHovered ? styles.buttonHover : {})
+                        ...(isHovered ? styles.buttonHover : {})
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
