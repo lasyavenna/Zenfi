@@ -4,9 +4,12 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         minHeight: '100vh',
+        width: '100vw',
         backgroundColor: '#f9f9f9',
         padding: '20px',
+        boxSizing: 'border-box',
     },
     formBox: {
         backgroundColor: '#ffffff',
