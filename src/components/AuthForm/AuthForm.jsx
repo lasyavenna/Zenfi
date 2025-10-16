@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './AuthForm.css';
+import { supabase } from '../../supabaseClient';
 
 const AuthForm = ({ onSuccess }) => {
     const [isSigningIn, setIsSigningIn] = useState(true);
@@ -15,39 +16,41 @@ const AuthForm = ({ onSuccess }) => {
             return;
         }
 
-        const endpoint = isSigningIn ? 'Login' :'register';
-        const url = `http://localhost:3001/api/${endpoint}`;
+        let authFunction;
+        let successMessage;
+
+        if (isSigningIn) {
+            authFunction = supabase.auth.signInWithPassword({
+                email: username,
+                password: password,
+            });
+            successMessage = 'Login successful!';
+        } else {
+            // Use Supabase signUp for registration
+            authFunction = supabase.auth.signUp({
+                email: username,
+                password: password,
+            });
+            successMessage = 'Registration successful! You can now sign in.';
+        }
 
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content- Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
+            const { data, error } = await authFunction;
 
-            const data = await response.json();
-
-            if (response.ok) {
-                if (isSigningIn) {
-                    // Successful login
-                    alert(`Login successful! ${data.message}`);
-                    if (onSuccess) {
-                        onSuccess();
-                    }
-                } else {
-                    // successful registration
-                    alert(`Registration successful! ${data.message}`);
-                    setIsSigningIn(true); // switch to login view
+            if (error) {
+                alert(`Authentication Error: ${error.message}`);
+            } else if (isSigningIn && data.user) {
+                alert(successMessage);
+                if (onSuccess) {
+                    onSuccess();
                 }
-            } else {
-                // server returned an error
-                alert(`Authetication failed: ${data.message}`);
+            } else if (!isSigningIn) {
+                alert(successMessage);
+                setIsSigningIn(true);
             }
         } catch (error) {
-            console.error("Network Error: ", error);
-            alert("Could not connect to the server.");
+            console.error("Supabase Call Error: ", error);
+            alert("A network error occured.");
         }
     };
 
