@@ -1,0 +1,70 @@
+Goal:
+Generate a single-file React component (.jsx) that simulates a responsive, personal finance website with a synthwave light-mode aesthetic.
+
+⸻
+
+Design & Aesthetic Specifications
+	•	Theme: The design should feel retro-futuristic, clean, and minimalistic, inspired by synthwave light mode visuals.
+	•	Styling Requirements:
+	•	Use Tailwind CSS utility classes throughout.
+	•	Apply rounded corners, smooth hover and page transitions, and consistent spacing.
+	•	Use black typography with the Inter font for maximum legibility.
+	•	All icons and graphical elements must match the color theme (lavender, yellow, and soft pink and blues).
+	•	Use lucide-react or similar minimalist icon library.
+	•	The theme must be a smooth gradient from lavender to light pastel yellow. All components must match the theme.
+    • The cards/containers should be translucent/blurred and have shadows. They should fit the theme.
+
+⸻
+
+⚙️ Functional Requirements
+
+The app must include a persistent bottom navigation bar with icons that navigate between four main screens:
+	1.	Home Screen (Goals):
+	•	Display a personalized greeting or welcome message.
+	•	Showcase a list of financial goals (e.g., Vacation Fund, Emergency Savings).
+	•	Each goal must include a circular progress bar visualizing the percentage completed.
+	2.	Wallet Screen (Payments & Analytics):
+	•	Display Saved Payment Methods (bank card, PayPal, etc.) as visual components.
+	•	Show a list of Recent Transactions with icons, labels, and amounts.
+	•	Include spending analytics graphs (e.g., line or pie charts) representing expenses over time.
+	3.	Invesy Screen (AI Investment Assistant):
+	•	Provide a chat interface (dummy AI functionality acceptable) for stock and investment-related questions.
+	•	Display a current-time market graph below the chat interface.
+	•	Include a section of helpful investment resources or links at the bottom.
+	4.	Chat Screen (AI Personal Assistant):
+	•	Provide a general-purpose chat UI for budgeting or financial advice.
+	•	Must include:
+	•	Scrollable chat message area
+	•	Input field
+	•	“Send” button
+	•	Maintain full color and style consistency with the global theme.
+
+⸻
+
+💻 Technical Requirements
+	•	Use React functional components and modern React hooks for state management.
+	•	Structure all pages within a single .jsx file, using conditional rendering or internal state for page navigation.
+	•	Implement all styling using Tailwind CSS only.
+	•	Ensure responsive, design adapts gracefully to desktop layouts.
+
+-----
+
+edits
+
+The background theme should be a gradient between light purple (#c2a1ff) to a light pastel yellow (#ffee8c).
+
+Changes in home page:
+Add the title and logo on top of the page.
+The progress bars make the yellow into #fff157. 
+Add a create a new goal button on top of the goals.
+
+Changes in wallet page:
+payment methods stay on top. An option to add a new card.
+analytics second and Transactions last.
+
+Changes in invest page:
+Change the page name to Learn, Invest, Grow
+Add an AI chatbot at the top in the empty bar
+
+Changes in Ai chatbot page:
+Change the name to Ask Panda Pal
