@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // File: /Users/tanishathakare/Desktop/DubHacks2025/Zenfi/frontend/app/layout.tsx
+=======
+// File: /Users/roshia/ZenFi/Zenfi/frontend/app/layout.tsx
+>>>>>>> 3f12bee7ee465877cb6ad71b95c14320936b7707
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

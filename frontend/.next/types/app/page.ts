@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // File: /Users/tanishathakare/Desktop/DubHacks2025/Zenfi/frontend/app/page.tsx
+=======
+// File: /Users/roshia/ZenFi/Zenfi/frontend/app/page.tsx
+>>>>>>> 3f12bee7ee465877cb6ad71b95c14320936b7707
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
