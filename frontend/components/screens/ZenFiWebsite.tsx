@@ -18,6 +18,29 @@ interface Message {
     content: string;
 }
 
+// call Gemini API
+const fetchAIResponse = async (messages: Message[], context: 'chat' | 'invest') => {
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ messages, context }),
+        });
+
+        if (!response.ok) {
+            throw new Error('AI service returned an error.');
+        }
+
+        const data = await response.json();
+        return data.content || "Sorry, I couldn't process that request.";
+    } catch (error) {
+        console.error("AI Fetch Error:", error);
+        return "I'm currently unable to connect to the AI service. Please try again later.";
+    }
+}
+
 export default function ZenFiWebsite() {
     const [activeScreen, setActiveScreen] = useState("home");
 
@@ -36,37 +59,48 @@ export default function ZenFiWebsite() {
     ])
     const [investInputValue, setInvestInputValue] = useState("")
 
-    const handleSendMessage = (message: string) => {
+    const handleSendMessage = async (message: string) => {
         if (message.trim()) {
-            setChatMessages(prev => [...prev, { role: "user", content: message }]);
+            const newUserMessage: Message = { role: "user", content: message };
+            setChatMessages(prev => [...prev, newUserMessage]);
             
-            setTimeout(() => {
-                setChatMessages(prev => [
-                    ...prev,
-                    {
-                        role: "assistant",
-                        content:
-                            "Great Question! The market is showing positive trends. Consider diversifying your portfolio with a mix of growth and value stocks.",
-                    },
-                ]);
-            }, 1000);
+            // get current history
+            const updatedHistory = [...chatMessages, newUserMessage];
+
+            // get actual response from the API route
+            const assistantResponseText = await fetchAIResponse(updatedHistory, 'chat');
+
+            // update state with response
+            setChatMessages(prev => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: assistantResponseText,
+                },
+            ]);
         }
     }
 
-    const handleSendInvestMessage = (message: string) => {
+    const handleSendInvestMessage = async (message: string) => {
         if (message.trim()) {
-            setInvestMessages(prev => [...prev, { role: "user", content: message }]);
+            const newUserMessage: Message = { role: "user", content: message };
+            setInvestMessages(prev => [...prev, newUserMessage]);
+            setInvestInputValue("");
 
-            setTimeout(() => {
-                setInvestMessages(prev => [
-                    ...prev,
-                    {
-                        role: "assistant",
-                        content:
-                            "Great question! The market is showing positive trends. Consider diversifying your portfolio with a mix of growth and value stocks.",
-                    },
-                ]);
-            }, 1000);
+            // get current history
+            const updatedHistory = [...investMessages, newUserMessage];
+
+            // fetch response from API
+            const assistantResponseText = await fetchAIResponse(updatedHistory, 'invest');
+
+            // update state
+            setInvestMessages(prev => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: assistantResponseText,
+                },
+            ]);
         }
     }
 
