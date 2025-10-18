@@ -6,12 +6,14 @@ import {
     Wallet,
     TrendingUp,
     MessageCircle,
+    Beaker,
 } from "lucide-react"
 
 import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
 import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
+import InvestSandbox from "./InvestSandbox";
 
 interface Message {
     role: "user" | "assistant";
@@ -132,6 +134,9 @@ export default function ZenFiWebsite() {
                         handleSendMessage={handleSendMessage}
                     />
                 );
+
+                case "sandbox":
+                return <InvestSandbox />;
                 
             default:
                 return <HomeGoalsScreen />
@@ -151,6 +156,7 @@ export default function ZenFiWebsite() {
                     { id: "wallet", icon: Wallet, label: "Wallet" },
                     { id: "invest", icon: TrendingUp, label: "Invest" },
                     { id: "chat", icon: MessageCircle, label: "Chat" },
+                    { id: "sandbox", icon: Beaker, label: "Sandbox" },
                 ].map((item) => (
                     <button
                     key={item.id}
