@@ -1,4 +1,4 @@
-// File: /Users/lasyavenna/Zenfi/frontend/app/layout.tsx
+// File: /Users/tanishathakare/Desktop/DubHacks2025/Zenfi/frontend/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
