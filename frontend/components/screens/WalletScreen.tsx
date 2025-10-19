@@ -117,8 +117,9 @@ export default function WalletScreen() {
 
   return (
     <div className="p-5">
-      <h1 className="text-3xl font-bold mb-5 text-gray-800">
-        Wallet 💳
+      {/* Centered title with money bag emoji */}
+      <h1 className="text-3xl font-bold mb-5 text-gray-800 text-center w-full">
+        Wallet 💰
       </h1>
 
       <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-lg p-6 mb-6">

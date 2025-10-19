@@ -6,28 +6,26 @@ import {
     ShoppingCart,
     Rocket,
     Hourglass,
-    HelpCircle, // 1. Imported the question mark icon
+    HelpCircle,
 } from "lucide-react";
 
-// The props from the old file are no longer needed for this new static design,
-// but you can add them back if you integrate a chat feature on this screen later.
-
-// --- DUMMY DATA for the graph ---
+// Dummy data for the market graph
 const marketGraphData = [40, 55, 45, 60, 50, 70, 65, 75, 60, 80, 70, 85];
 
 export default function InvestScreen() {
     return (
         <div
             className="min-h-screen bg-cover bg-center p-6 space-y-6 animate-in fade-in duration-300 flex flex-col"
-            // Ensure you have a 'panda_bg.jpg.png' file in your public folder
             style={{ backgroundImage: "url('/panda_bg.jpg.png')" }}
         >
-            <h1 className="text-4xl font-bold text-black">Learn, Invest, Grow</h1>
+            {/* Centered Title */}
+            <h1 className="text-4xl font-bold text-black text-center w-full">
+                Learn, Invest, Grow 📈
+            </h1>
 
             {/* Market Graph */}
             <div className="backdrop-blur-md bg-white/45 rounded-3xl p-6 shadow-lg">
                 <div className="flex items-center gap-3 mb-4">
-                    {/* 2. Replaced the img tag with the HelpCircle icon */}
                     <div className="bg-gray-200/80 rounded-full p-2">
                         <HelpCircle className="w-6 h-6 text-gray-700" />
                     </div>
@@ -44,11 +42,11 @@ export default function InvestScreen() {
                 </div>
             </div>
 
-            {/* --- NEW: Stock Market 101 Section --- */}
+            {/* Stock Market 101 Section */}
             <div className="backdrop-blur-md bg-white/45 rounded-3xl p-6 shadow-lg space-y-4">
-                <h3 className="text-lg font-bold text-black">Stock Market 101 🚀</h3>
-                
-                {/* What is a Stock? */}
+                <h3 className="text-lg font-bold text-black text-center">Stock Market 101 🚀</h3>
+
+                {/* What's a Stock */}
                 <div className="flex items-start gap-4 p-4 bg-white/50 rounded-xl">
                     <PieChart className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
                     <div>
@@ -59,7 +57,7 @@ export default function InvestScreen() {
                     </div>
                 </div>
 
-                {/* When to Buy? */}
+                {/* When to Buy */}
                 <div className="flex items-start gap-4 p-4 bg-white/50 rounded-xl">
                     <ShoppingCart className="w-8 h-8 text-green-600 flex-shrink-0 mt-1" />
                     <div>
@@ -70,7 +68,7 @@ export default function InvestScreen() {
                     </div>
                 </div>
 
-                {/* When to Sell? */}
+                {/* When to Sell */}
                 <div className="flex items-start gap-4 p-4 bg-white/50 rounded-xl">
                     <Rocket className="w-8 h-8 text-blue-600 flex-shrink-0 mt-1" />
                     <div>
@@ -81,13 +79,13 @@ export default function InvestScreen() {
                     </div>
                 </div>
 
-                 {/* The Golden Rule */}
-                 <div className="flex items-start gap-4 p-4 bg-white/50 rounded-xl">
+                {/* The Golden Rule */}
+                <div className="flex items-start gap-4 p-4 bg-white/50 rounded-xl">
                     <Hourglass className="w-8 h-8 text-pink-600 flex-shrink-0 mt-1" />
                     <div>
                         <h4 className="font-bold text-black">The Golden Rule: Think Long-Term</h4>
                         <p className="text-sm text-gray-800">
-                            Timing the market is super hard. The real secret? Find great companies you believe in and hold on. Time is your best friend in investing! 
+                            Timing the market is super hard. The real secret? Find great companies you believe in and hold on. Time is your best friend in investing!
                         </p>
                     </div>
                 </div>
@@ -95,4 +93,3 @@ export default function InvestScreen() {
         </div>
     );
 }
-
