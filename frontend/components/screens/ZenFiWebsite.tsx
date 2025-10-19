@@ -12,6 +12,7 @@ import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
 import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
+import SettingsPage from "./SettingsPage"
 
 interface Message {
     role: "user" | "assistant";
@@ -64,19 +65,13 @@ export default function ZenFiWebsite() {
             const newUserMessage: Message = { role: "user", content: message };
             setChatMessages(prev => [...prev, newUserMessage]);
             
-            // get current history
             const updatedHistory = [...chatMessages, newUserMessage];
 
-            // get actual response from the API route
             const assistantResponseText = await fetchAIResponse(updatedHistory, 'chat');
 
-            // update state with response
             setChatMessages(prev => [
                 ...prev,
-                {
-                    role: "assistant",
-                    content: assistantResponseText,
-                },
+                { role: "assistant", content: assistantResponseText },
             ]);
         }
     }
@@ -87,19 +82,13 @@ export default function ZenFiWebsite() {
             setInvestMessages(prev => [...prev, newUserMessage]);
             setInvestInputValue("");
 
-            // get current history
             const updatedHistory = [...investMessages, newUserMessage];
 
-            // fetch response from API
             const assistantResponseText = await fetchAIResponse(updatedHistory, 'invest');
 
-            // update state
             setInvestMessages(prev => [
                 ...prev,
-                {
-                    role: "assistant",
-                    content: assistantResponseText,
-                },
+                { role: "assistant", content: assistantResponseText },
             ]);
         }
     }
@@ -109,10 +98,8 @@ export default function ZenFiWebsite() {
         switch (activeScreen) {
             case "home":
                 return <HomeGoalsScreen />;
-
             case "wallet":
                 return <WalletScreen />;     
-                      
             case "invest":
                 return (
                     <InvestScreen 
@@ -122,7 +109,6 @@ export default function ZenFiWebsite() {
                         handleSendMessage={handleSendInvestMessage}
                     />
                 );
-            
             case "chat":
                 return (
                     <ChatScreen
@@ -132,19 +118,21 @@ export default function ZenFiWebsite() {
                         handleSendMessage={handleSendMessage}
                     />
                 );
-                
             default:
                 return <HomeGoalsScreen />
         }
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#c2a1ff] via-pink-100 to-[#ffee8c] pb-20 font-sans">
-            {/* Renders the current active screen */}
+        <div
+            className="min-h-screen pb-20 font-sans bg-cover bg-center"
+            style={{ backgroundImage: "url('/panda_bg.jpg')" }}
+        >
+            {/* Active screen content */}
             {renderScreen()}
 
-            {/* Bottom Navigation (Fixed and shared across all screens) */}
-            <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-white/60 border-t border-white/40 showdow-lg">
+            {/* Bottom Navigation */}
+            <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-white/60 border-t border-white/40 shadow-lg">
                 <div className="flex justify-around items-center p-4 max-w-md mx-auto">
                 {[
                     { id: "home", icon: Home, label: "Goals" },
@@ -167,5 +155,4 @@ export default function ZenFiWebsite() {
             </div>
         </div>
     )
-
 }

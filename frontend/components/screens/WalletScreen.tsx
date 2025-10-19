@@ -16,8 +16,11 @@ const transactions = [
 
 export default function WalletScreen() {
     return (
-        <div className="p-6 space-y-6 animate-in fade-in duration-300">
-            <h1 className="text-4xl font-bold text-black">Wallet 💳</h1>
+        <div
+            className="min-h-screen bg-cover bg-center p-6 space-y-6 animate-in fade-in duration-300"
+            style={{ backgroundImage: "url('/panda_bg.jpg.png')" }}
+        >
+            <h1 className="text-4xl font-bold text-black">Wallet</h1>
 
             {/* Payment Methods Section */}
             <div className="space-y-3">
@@ -51,7 +54,7 @@ export default function WalletScreen() {
                         )}
                     </div>
                 ))}
-                <button className="w-full backdrop-blur-md bg-white/40 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
+                <button className="w-full backdrop-blur-md bg-white/45 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
                     <Plus className="w-6 h-6" />
                     Add New Card
                 </button>
@@ -60,7 +63,7 @@ export default function WalletScreen() {
             {/* Spending Analytics Section */}
             <div className="space-y-3">
                 <h2 className="text-xl font-bold text-black">Spending Analytics</h2>
-                <div className="backdrop-blur-md bg-white/40 rounded-3xl p-6 shadow-lg">
+                <div className="backdrop-blur-md bg-white/45 rounded-3xl p-6 shadow-lg">
                     <div className="h-48 flex items-end justify-around gap-2">
                         {[65, 45, 80, 55, 70, 60, 85].map((height, index) => (
                             <div key={index} className="flex-1 flex flex-col items-center gap-2">
@@ -80,7 +83,7 @@ export default function WalletScreen() {
             {/* Recent Transactions Section */}
             <div className="space-y-3">
                 <h2 className="text-xl font-bold text-black">Recent Transactions</h2>
-                <div className="backdrop-blur-md bg-white/40 rounded-3xl p-4 shadow-lg space-y-2">
+                <div className="backdrop-blur-md bg-white/45 rounded-3xl p-4 shadow-lg space-y-2">
                     {transactions.map((transaction, index) => (
                         <div
                             key={index}

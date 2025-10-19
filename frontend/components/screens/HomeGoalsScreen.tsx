@@ -9,21 +9,21 @@ interface Goal {
 }
 
 const goalsData: Goal[] = [
-    { name: "Vacation Fund", current: 3200, target: 5000, icon: "✈️"},
-    { name: "Emergency Savings", current: 8500, target: 10000, icon: "🛡️"},
-    { name: "New Car", current: 12000, target: 25000, icon: "🚗"},
-    { name: "Home Renovation", current: 4500, target: 15000, icon: "🏠"},
+    { name: "Vacation Fund", current: 3200, target: 5000, icon: "✈️" },
+    { name: "Emergency Savings", current: 8500, target: 10000, icon: "💰" },
+    { name: "New Car", current: 12000, target: 25000, icon: "🚘" },
+    { name: "Home Renovation", current: 4500, target: 15000, icon: "🏡" },
 ];
 
-// utility components
+// Utility component for circular progress
 const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ percentage, size = 120 }) => {
-    const radius = (size - 20) / 2
-    const circumference = 2 * Math.PI * radius
-    const offset = circumference - (percentage / 100) * circumference
+    const radius = (size - 20) / 2;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (percentage / 100) * circumference;
 
     return (
         <div className="relative" style={{ width: size, height: size }}>
-            <svg className="trandform -rotate-90" width={size} height={size}>
+            <svg className="transform -rotate-90" width={size} height={size}>
                 <circle
                     cx={size / 2}
                     cy={size / 2}
@@ -45,43 +45,50 @@ const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ per
                     className="transition-all duration-1000"
                 />
                 <defs>
-                    {/* The gradient definition is global, so it's safer to keep it here or in global CSS */}
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#c084fc" />
-                    <stop offset="100%" stopColor="#fff157" />
+                        <stop offset="0%" stopColor="#c084fc" />
+                        <stop offset="100%" stopColor="#fff157" />
                     </linearGradient>
                 </defs>
             </svg>
         </div>
-    )
+    );
 };
 
-// main screen component
+// Main screen component
 export default function HomeGoalsScreen() {
     return (
-        <div className="p-6 space-y-6 animate-in fade-in duration-300">
-            <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="text-5xl">🐼</div>
-                <h1 className="text-5xl font-bold text-black">ZenFi</h1>
+        <div
+            className="min-h-screen bg-cover bg-center p-6 space-y-6 animate-in fade-in duration-300"
+            style={{ backgroundImage: "url('/panda_bg.jpg')" }}
+        >
+            {/* Header */}
+            <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="w-28 h-28">
+                    <img
+                        src="/trans_panda.jpg"
+                        alt="Panda"
+                        className="w-full h-full object-contain"
+                    />
+                </div>
+
+                <h1 className="text-6xl font-extrabold text-black">ZenFi</h1>
             </div>
 
-            <div className="space-y-2">
-                <h2 className="text-3xl font-bold text-black">Welcome back! 👋</h2>
-                <p className="text-lg text-black/70">Let's check your financial goals</p>
-            </div>
-
-            <button className="w-full backdrop-blur-md bg-white/40 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
+            {/* New Goal Button moved further down */}
+            <button className="mt-12 w-full backdrop-blur-md bg-white/25 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
                 <Plus className="w-5 h-5" />
                 Create a New Goal
             </button>
 
+            {/* Goals Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {goalsData.map((goal, index) => {
-                    const percentage = Math.round((goal.current / goal.target) * 100)
+                    const percentage = Math.round((goal.current / goal.target) * 100);
                     return (
                         <div
                             key={index}
-                            className="backdrop-blur-md bg-white/40 rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                            className="backdrop-blur-md bg-white/45 rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <div>
@@ -93,14 +100,14 @@ export default function HomeGoalsScreen() {
                                 </div>
                                 <CircularProgress percentage={percentage} size={100} />
                             </div>
-                            <div className="w-full bg-white/50 rounded-full h-3 overflow-hidden">
+                            <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-purple-400 to-[#fff157] rounded-full transition-all duration-1000"
                                     style={{ width: `${percentage}%` }}
                                 />
                             </div>
                         </div>
-                    )
+                    );
                 })}
             </div>
         </div>
