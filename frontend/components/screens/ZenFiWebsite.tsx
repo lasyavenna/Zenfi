@@ -15,6 +15,7 @@ import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
 import SettingsPage from "./SettingsPage"
 import InvestSandbox from "./InvestSandbox";
+import Avatar from "./Avatar";
 
 interface Message {
     role: "user" | "assistant";
@@ -146,6 +147,7 @@ export default function ZenFiWebsite() {
                     { id: "invest", icon: TrendingUp, label: "Invest" },
                     { id: "chat", icon: MessageCircle, label: "Chat" },
                     { id: "sandbox", icon: Beaker, label: "Sandbox" },
+                    { id: "avatar", icon: Beaker, label: "Avatar" },
                 ].map((item) => (
                     <button
                     key={item.id}
