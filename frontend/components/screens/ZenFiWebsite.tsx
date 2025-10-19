@@ -8,7 +8,9 @@ import {
     MessageCircle,
     Beaker,
     User, // <-- Use this icon for Avatar
-} from "lucide-react";
+    PersonStanding,
+    BoxIcon,
+} from "lucide-react"
 
 import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
@@ -94,25 +96,25 @@ export default function ZenFiWebsite() {
             {/* Bottom Navigation */}
             <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-white/60 border-t border-white/40 shadow-lg">
                 <div className="flex justify-around items-center p-4 max-w-md mx-auto">
-                    {[
-                        { id: "home", icon: Home, label: "Goals" },
-                        { id: "wallet", icon: Wallet, label: "Wallet" },
-                        { id: "invest", icon: TrendingUp, label: "Invest" },
-                        { id: "chat", icon: MessageCircle, label: "Chat" },
-                        { id: "sandbox", icon: Beaker, label: "Sandbox" },
-                        { id: "avatar", icon: User, label: "Avatar" }, // <-- Correct icon
-                    ].map((item) => (
-                        <button
-                            key={item.id}
-                            onClick={() => setActiveScreen(item.id)}
-                            className={`flex flex-col items-center gap-1 transition-all ${
-                                activeScreen === item.id ? "text-purple-600 scale-110" : "text-black/60 hover:text-black"
-                            }`}
-                        >
-                            <item.icon className="w-6 h-6" />
-                            <span className="text-xs font-medium">{item.label}</span>
-                        </button>
-                    ))}
+                {[
+                    { id: "home", icon: Home, label: "Goals" },
+                    { id: "wallet", icon: Wallet, label: "Wallet" },
+                    { id: "invest", icon: TrendingUp, label: "Invest" },
+                    { id: "chat", icon: MessageCircle, label: "Chat" },
+                    { id: "sandbox", icon: BoxIcon, label: "Sandbox" },
+                    { id: "avatar", icon: PersonStanding, label: "Avatar" },
+                ].map((item) => (
+                    <button
+                    key={item.id}
+                    onClick={() => setActiveScreen(item.id)}
+                    className={`flex flex-col items-center gap-1 transition-all ${
+                        activeScreen === item.id ? "text-purple-600 scale-110" : "text-black/60 hover:text-black"
+                    }`}
+                    >
+                    <item.icon className="w-6 h-6" />
+                    <span className="text-xs font-medium">{item.label}</span>
+                    </button>
+                ))}
                 </div>
             </div>
 
