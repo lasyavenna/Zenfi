@@ -19,7 +19,7 @@ const initialGoalsData: Goal[] = [
     { name: "Home Renovation", current: 4500, target: 15000, icon: "🏡" },
 ];
 
-// utility components (CircularProgress component is unchanged)
+// utility components
 const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ percentage, size = 120 }) => {
     const radius = (size - 20) / 2;
     const circumference = 2 * Math.PI * radius;
@@ -61,13 +61,10 @@ const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ per
 
 // Main screen component
 export default function HomeGoalsScreen() {
-    // 1. Manage the list of goals
     const [goals, setGoals] = useState<Goal[]>(initialGoalsData);
-    // 2. Manage modal visibility
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 3. Logic to add a new goal
-    const handleCreateGoal = (newGoal: Omit<Goal, 'icon'> & { icon: string }) => {
+    const handleCreateGoal = (newGoal: Goal) => {
         setGoals(prevGoals => [...prevGoals, newGoal]);
         setIsModalOpen(false); // Close modal after creating
     };
@@ -86,7 +83,6 @@ export default function HomeGoalsScreen() {
                         className="w-full h-full object-contain"
                     />
                 </div>
-
                 <h1 className="text-6xl font-extrabold text-black">ZenFi</h1>
             </div>
 
@@ -103,8 +99,8 @@ export default function HomeGoalsScreen() {
                 </p>
             </div>
 
-            <button
-                onClick={() => setIsModalOpen(true)} // Open modal on click
+            <button 
+                onClick={() => setIsModalOpen(true)}
                 className="mt-12 w-full backdrop-blur-md bg-white/25 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold"
             >
                 <Plus className="w-5 h-5" />
@@ -113,7 +109,7 @@ export default function HomeGoalsScreen() {
 
             {/* Goals Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {goals.map((goal, index) => { // Use 'goals' state here
+                {goals.map((goal, index) => {
                     const percentage = Math.round((goal.current / goal.target) * 100)
                     return (
                         <div
@@ -133,6 +129,7 @@ export default function HomeGoalsScreen() {
                             <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-purple-400 to-[#fff157] rounded-full transition-all duration-1000"
+                                    // --- FIX: Corrected JSX style syntax ---
                                     style={{ width: `${percentage}%` }}
                                 />
                             </div>
