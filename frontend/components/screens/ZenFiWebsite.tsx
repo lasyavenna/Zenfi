@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
     Home,
     Wallet,
     TrendingUp,
     MessageCircle,
     Beaker,
+    User, // <-- Use this icon for Avatar
+    PersonStanding,
+    BoxIcon,
     Settings,
 } from "lucide-react"
 
@@ -15,6 +18,9 @@ import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
 import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
+import SettingsPage from "./SettingsPage";
+import InvestSandbox from "./InvestSandbox";
+import Avatar from "./Avatar";
 import InvestmentArcade from "./InvestSandbox";
 import SettingsScreen from "./SettingsPage";
 
@@ -50,16 +56,16 @@ export default function ZenFiWebsite() {
 
     const [chatMessages, setChatMessages] = useState<Message[]>([
         { role: "assistant", content: "Hi! I'm your personal finance assistant. How can I help you today?" },
-    ])
-    const [inputValue, setInputValue] = useState("")
+    ]);
+    const [inputValue, setInputValue] = useState("");
 
     const [investMessages, setInvestMessages] = useState<Message[]>([
         {
-        role: "assistant",
-        content: "Hello! I'm here to help you learn, invest, and grow. Ask me anything about stocks and investments!",
+            role: "assistant",
+            content: "Hello! I'm here to help you learn, invest, and grow. Ask me anything about stocks and investments!",
         },
-    ])
-    const [investInputValue, setInvestInputValue] = useState("")
+    ]);
+    const [investInputValue, setInvestInputValue] = useState("");
 
     const handleSendMessage = async (message: string) => {
         if (message.trim()) {
@@ -105,7 +111,7 @@ export default function ZenFiWebsite() {
             case "home":
                 return <HomeGoalsScreen />;
             case "wallet":
-                return <WalletScreen />;     
+                return <WalletScreen />;
             case "invest":
                 return <InvestScreen />;
             case "chat":
@@ -120,12 +126,12 @@ export default function ZenFiWebsite() {
                 );
             case "sandbox":
                 return <InvestmentArcade />;
-            case "settings":
-                return <SettingsScreen />;
+            case "avatar":
+                return <Avatar />;
             default:
                 return <HomeGoalsScreen />;
         }
-    }
+    };
 
     return (
         <div
@@ -144,8 +150,9 @@ export default function ZenFiWebsite() {
                     { id: "wallet", icon: Wallet, label: "Wallet" },
                     { id: "invest", icon: TrendingUp, label: "Invest" },
                     { id: "chat", icon: MessageCircle, label: "Chat" },
-                    { id: "sandbox", icon: Beaker, label: "Arcade" },
-                    { id: "settings", icon: Settings, label: "Settings" },
+                    { id: "sandbox", icon: BoxIcon, label: "Sandbox" },
+                    { id: "avatar", icon: PersonStanding, label: "Avatar" },
+                    
                 ].map((item) => (
                     <button
                     key={item.id}
@@ -160,7 +167,10 @@ export default function ZenFiWebsite() {
                 ))}
                 </div>
             </div>
+
+            {/* Settings Overlay */}
+            <SettingsPage />
         </div>
-    )
+    );
 }
 

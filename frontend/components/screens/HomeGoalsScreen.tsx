@@ -13,13 +13,13 @@ interface Goal {
 
 // Initial static data
 const initialGoalsData: Goal[] = [
-    { name: "Vacation Fund", current: 3200, target: 5000, icon: "✈️"},
-    { name: "Emergency Savings", current: 8500, target: 10000, icon: "🛡️"},
-    { name: "New Car", current: 12000, target: 25000, icon: "🚗"},
-    { name: "Home Renovation", current: 4500, target: 15000, icon: "🏠"},
+    { name: "Vacation Fund", current: 3200, target: 5000, icon: "✈️" },
+    { name: "Emergency Savings", current: 8500, target: 10000, icon: "💰" },
+    { name: "New Car", current: 12000, target: 25000, icon: "🚘" },
+    { name: "Home Renovation", current: 4500, target: 15000, icon: "🏡" },
 ];
 
-// utility components (CircularProgress component is unchanged)
+// utility components
 const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ percentage, size = 120 }) => {
     const radius = (size - 20) / 2;
     const circumference = 2 * Math.PI * radius;
@@ -61,13 +61,10 @@ const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ per
 
 // Main screen component
 export default function HomeGoalsScreen() {
-    // 1. Manage the list of goals
     const [goals, setGoals] = useState<Goal[]>(initialGoalsData);
-    // 2. Manage modal visibility
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 3. Logic to add a new goal
-    const handleCreateGoal = (newGoal: Omit<Goal, 'icon'> & { icon: string }) => {
+    const handleCreateGoal = (newGoal: Goal) => {
         setGoals(prevGoals => [...prevGoals, newGoal]);
         setIsModalOpen(false); // Close modal after creating
     };
@@ -86,17 +83,24 @@ export default function HomeGoalsScreen() {
                         className="w-full h-full object-contain"
                     />
                 </div>
-
                 <h1 className="text-6xl font-extrabold text-black">ZenFi</h1>
             </div>
 
-            <div className="space-y-2">
-                <h2 className="text-3xl font-bold text-black">Welcome back! 👋</h2>
-                <p className="text-lg text-black/70">Let's check your financial goals</p>
+            <div className="relative text-center space-y-2 w-fit mx-auto">
+                {/* Gradient blur background */}
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-400/60 via-pink-300/60 to-pink-500/60 blur-xl rounded-3xl" />
+
+                {/* Text content */}
+                <h2 className="text-3xl font-extrabold text-black drop-shadow-lg">
+                    Welcome back! 👋
+                </h2>
+                <p className="text-lg text-black/90 drop-shadow-md">
+                    Let's check your financial goals
+                </p>
             </div>
 
             <button 
-                onClick={() => setIsModalOpen(true)} // Open modal on click
+                onClick={() => setIsModalOpen(true)}
                 className="mt-12 w-full backdrop-blur-md bg-white/25 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold"
             >
                 <Plus className="w-5 h-5" />
@@ -105,7 +109,7 @@ export default function HomeGoalsScreen() {
 
             {/* Goals Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {goals.map((goal, index) => { // Use 'goals' state here
+                {goals.map((goal, index) => {
                     const percentage = Math.round((goal.current / goal.target) * 100)
                     return (
                         <div
@@ -125,6 +129,7 @@ export default function HomeGoalsScreen() {
                             <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-purple-400 to-[#fff157] rounded-full transition-all duration-1000"
+                                    // --- FIX: Corrected JSX style syntax ---
                                     style={{ width: `${percentage}%` }}
                                 />
                             </div>
@@ -134,7 +139,7 @@ export default function HomeGoalsScreen() {
             </div>
 
             {/* Modal for creating a new goal */}
-            <CreateGoalModal 
+            <CreateGoalModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onCreate={handleCreateGoal}
