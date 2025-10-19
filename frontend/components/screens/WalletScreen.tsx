@@ -1,3 +1,5 @@
+// app/screens/WalletScreen.tsx
+
 "use client";
 import React, { useState } from 'react';
 import {
@@ -15,23 +17,9 @@ import {
   Fuel,
   CreditCard,
   Plus,
-  X,
-  Utensils,
-  Film,
-  Gift,
 } from 'lucide-react';
 
-// --- DEFINE THE SHAPE OF A TRANSACTION ---
-interface Transaction {
-    icon: React.ElementType;
-    name: string;
-    time: string;
-    amount: number;
-    color: string;
-    bg: string;
-}
-
-const initialSpendingData = [
+const spendingData = [
   { day: 'Mon', amount: 65 },
   { day: 'Tue', amount: 85.32 },
   { day: 'Wed', amount: 12.50 },
@@ -41,7 +29,7 @@ const initialSpendingData = [
   { day: 'Sun', amount: 20.00 },
 ];
 
-const initialTransactionsData: Transaction[] = [
+const transactionsData = [
   {
     icon: ShoppingBag, name: 'Grocery Store', time: 'Today', amount: -85.32,
     color: 'text-blue-500', bg: 'bg-blue-100',
@@ -72,54 +60,13 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
   return null;
 };
 
-interface AddTransactionModalProps {
-    onClose: () => void;
-    onAdd: (name: string, amount: number, type: 'expense' | 'deposit', icon: React.ElementType) => void;
-}
-
 export default function WalletScreen() {
   const [isAddingCard, setIsAddingCard] = useState(false);
-  const [isAddingTransaction, setIsAddingTransaction] = useState(false);
-  
-  // --- EXPLICITLY TYPE THE STATE ---
-  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactionsData);
-  const [spending, setSpending] = useState(initialSpendingData);
-
-  const handleAddTransaction = (name: string, amount: number, type: 'expense' | 'deposit', icon: React.ElementType) => {
-    const newAmount = type === 'expense' ? -Math.abs(amount) : Math.abs(amount);
-    
-    const newIcon = icon; 
-    const newColor = newAmount > 0 ? 'text-green-500' : 'text-purple-500';
-    const newBg = newAmount > 0 ? 'bg-green-100' : 'bg-purple-100';
-
-    const newTransaction: Transaction = {
-      icon: newIcon,
-      name: name,
-      time: 'Today',
-      amount: newAmount,
-      color: newColor,
-      bg: newBg,
-    };
-
-    setTransactions(prev => [newTransaction, ...prev]);
-    
-    if (type === 'expense') {
-        setSpending(prev => {
-            const today = new Date().toLocaleString('en-us', {  weekday: 'short' });
-            return prev.map(day => 
-                day.day === today ? { ...day, amount: day.amount + amount } : day
-            );
-        });
-    }
-
-    setIsAddingTransaction(false);
-  };
 
   return (
     <div className="p-5">
-      {/* Centered title with money bag emoji */}
-      <h1 className="text-3xl font-bold mb-5 text-gray-800 text-center w-full">
-        Wallet 💰
+      <h1 className="text-3xl font-bold mb-5 text-gray-800">
+        Wallet 💳
       </h1>
 
       <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-lg p-6 mb-6">
@@ -165,7 +112,7 @@ export default function WalletScreen() {
         <div className="h-48 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={spending}
+              data={spendingData}
               margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
             >
               <XAxis
@@ -197,17 +144,8 @@ export default function WalletScreen() {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Recent Transactions
         </h2>
-
-        <button
-            onClick={() => setIsAddingTransaction(true)}
-            className="w-full flex items-center justify-center gap-2 bg-gray-100/70 text-gray-700 font-medium py-3 px-5 rounded-xl shadow-sm hover:bg-gray-200 transition-all mb-4"
-          >
-            <Plus className="w-5 h-5" />
-            Add Transaction
-        </button>
-
         <div className="space-y-4">
-          {transactions.map((tx, index) => {
+          {transactionsData.map((tx, index) => {
             const isDeposit = tx.amount > 0;
             return (
               <div key={index} className="flex items-center justify-between">
@@ -227,7 +165,6 @@ export default function WalletScreen() {
                 >
                   {isDeposit ? '+' : ''}${Math.abs(tx.amount).toFixed(2)}
                 </p>
-                
               </div>
             );
           })}
@@ -235,107 +172,38 @@ export default function WalletScreen() {
       </div>
       
       {isAddingCard && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          {/* ... Add Card Modal Code ... */}
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm">
+            <h2 className="text-xl font-semibold mb-4">Add a New Card</h2>
+            <input
+              type="text"
+              className="w-full p-3 border border-gray-300 rounded-md mb-3"
+              placeholder="Card Number"
+              maxLength={16}
+            />
+            <input
+              type="text"
+              className="w-full p-3 border border-gray-300 rounded-md mb-4"
+              placeholder="MM/YY"
+              maxLength={5}
+            />
+            <div className="flex gap-4">
+              <button
+                onClick={() => setIsAddingCard(false)}
+                className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-md font-semibold hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setIsAddingCard(false)}
+                className="flex-1 bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700"
+              >
+                Add Card
+              </button>
+            </div>
+          </div>
         </div>
       )}
-
-      {isAddingTransaction && 
-        <AddTransactionModal 
-            onClose={() => setIsAddingTransaction(false)} 
-            onAdd={handleAddTransaction} 
-        />
-      }
     </div>
   );
 }
-
-
-// --- SEPARATE COMPONENT FOR THE TRANSACTION MODAL ---
-const AddTransactionModal = ({ onClose, onAdd }: AddTransactionModalProps) => {
-    const [name, setName] = useState('');
-    const [amount, setAmount] = useState('');
-    const [type, setType] = useState<'expense' | 'deposit'>('expense');
-    
-    const iconOptions = [ShoppingBag, Coffee, Fuel, Utensils, Film, Gift, DollarSign];
-    const [selectedIcon, setSelectedIcon] = useState<React.ElementType>(ShoppingBag);
-
-    const handleSubmit = () => {
-        const numAmount = parseFloat(amount);
-        if (name && !isNaN(numAmount) && numAmount > 0) {
-            onAdd(name, numAmount, type, selectedIcon);
-        } else {
-            alert('Please enter a valid name and positive amount.');
-        }
-    }
-
-    return (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-xl p-6 w-full max-w-sm relative animate-in fade-in zoom-in-95 duration-300">
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-                    <X className="w-6 h-6" />
-                </button>
-                <h2 className="text-2xl font-bold text-black mb-6">Add a Transaction</h2>
-
-                <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-2 p-1 bg-gray-200 rounded-lg">
-                        <button
-                            onClick={() => { setType('expense'); setSelectedIcon(ShoppingBag); }}
-                            className={`p-2 rounded-md font-semibold transition-all ${type === 'expense' ? 'bg-white shadow' : 'text-gray-600'}`}
-                        >
-                            Expense
-                        </button>
-                        <button
-                            onClick={() => { setType('deposit'); setSelectedIcon(DollarSign); }}
-                            className={`p-2 rounded-md font-semibold transition-all ${type === 'deposit' ? 'bg-white shadow' : 'text-gray-600'}`}
-                        >
-                            Deposit
-                        </button>
-                    </div>
-
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Transaction Name (e.g., Boba Tea)"
-                        className="w-full p-3 border border-gray-300 rounded-lg"
-                    />
-                    <input
-                        type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        placeholder="Amount ($)"
-                        className="w-full p-3 border border-gray-300 rounded-lg"
-                    />
-
-                    <div>
-                        <label className="text-sm font-medium text-gray-700">Category</label>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            {(type === 'expense' ? iconOptions.filter(icon => icon !== DollarSign) : [DollarSign]).map((Icon, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setSelectedIcon(Icon)}
-                                    className={`p-3 rounded-lg transition-all ${
-                                        selectedIcon === Icon ? 'bg-purple-200 ring-2 ring-purple-500' : 'bg-gray-100 hover:bg-gray-200'
-                                    }`}
-                                >
-                                    <Icon className="w-5 h-5 text-gray-700" />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-8">
-                    <button
-                        onClick={handleSubmit}
-                        className="w-full bg-purple-500 text-white p-3 rounded-lg font-semibold hover:bg-purple-600"
-                    >
-                        Add Transaction
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
