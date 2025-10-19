@@ -126,8 +126,8 @@ export default function ZenFiWebsite() {
                 );
             case "sandbox":
                 return <InvestmentArcade />;
-            case "settings":
-                return <SettingsScreen />;
+            case "avatar":
+                return <Avatar />;
             default:
                 return <HomeGoalsScreen />;
         }
@@ -152,7 +152,7 @@ export default function ZenFiWebsite() {
                     { id: "chat", icon: MessageCircle, label: "Chat" },
                     { id: "sandbox", icon: BoxIcon, label: "Sandbox" },
                     { id: "avatar", icon: PersonStanding, label: "Avatar" },
-                    { id: "settings", icon: Settings, label: "Settings" },
+                    
                 ].map((item) => (
                     <button
                     key={item.id}

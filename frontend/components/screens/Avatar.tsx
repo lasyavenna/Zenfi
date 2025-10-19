@@ -2,11 +2,7 @@
 
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-
-interface AvatarProps {
-  totalSavings: number;
-  onClose?: () => void;
-}
+import { useRouter } from "next/navigation";
 
 interface AvatarItem {
   id: number;
@@ -21,9 +17,11 @@ const avatars: AvatarItem[] = [
   { id: 3, name: "Golden Panda", image: "/golden_panda.jpg", requiredSavings: 5000 },
 ];
 
-export default function Avatar({ totalSavings, onClose }: AvatarProps) {
-  const [selectedAvatar, setSelectedAvatar] = useState<number>(1); // start with Basic Panda
+export default function AvatarPage() {
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
+  const [totalSavings] = useState<number>(2300); // 🔹 example value — replace with real state
   const activeAvatar = avatars.find((a) => a.id === selectedAvatar);
+  const router = useRouter();
 
   return (
     <div
@@ -33,7 +31,7 @@ export default function Avatar({ totalSavings, onClose }: AvatarProps) {
       {/* Header */}
       <div className="flex items-center w-full gap-4 mb-4">
         <button
-          onClick={onClose}
+          onClick={() => router.push("/")} // ✅ go home only when clicked
           className="p-2 bg-white/50 rounded-full hover:shadow-lg transition-all"
         >
           <ArrowLeft className="w-6 h-6 text-black" />
@@ -48,7 +46,7 @@ export default function Avatar({ totalSavings, onClose }: AvatarProps) {
           <img
             src={activeAvatar?.image}
             alt={activeAvatar?.name}
-            className="w-36 h-36 rounded-full object-contain border-4 border-white shadow-xl"
+            className="w-40 h-40 rounded-full object-contain border-4 border-white shadow-xl"
           />
         </div>
         <h2 className="text-2xl font-semibold">{activeAvatar?.name}</h2>
@@ -59,7 +57,7 @@ export default function Avatar({ totalSavings, onClose }: AvatarProps) {
         </p>
       </div>
 
-      {/* Display total savings */}
+      {/* Total Savings */}
       <div className="w-full backdrop-blur-md bg-white/50 rounded-xl p-4 shadow-lg flex justify-between items-center mt-4">
         <span className="text-xl font-semibold">Total Savings:</span>
         <span className="text-xl font-bold text-green-600">

@@ -34,27 +34,26 @@ export default function ChatScreen({
         scrollToBottom();
     }, [messages, isLoading]);
 
-
     const localHandleSendMessage = () => {
         if (inputValue.trim()) {
             handleSendMessage(inputValue);
             setInputValue("");
         }
-    }
+    };
 
     return (
         <div className="h-full flex flex-col">
             {/* Header */}
             <div className="p-6 pt-0 flex-shrink-0 text-center">
-                 <div>
+                <div>
                     <h1 className="text-2xl font-bold text-black">Ask Panda Pal</h1>
                     <p className="text-sm text-gray-600">Your personal finance guru</p>
-                 </div>
+                </div>
             </div>
 
-            {/* --- FIX: Main container for chat messages and input --- */}
+            {/* Main Chat Container */}
             <div className="bg-white/40 backdrop-blur-md rounded-2xl shadow-lg flex-1 flex flex-col overflow-hidden">
-                {/* Chat Messages - this area now scrolls */}
+                {/* Chat Messages */}
                 <div className="flex-1 space-y-4 overflow-y-auto p-4 pr-2">
                     {messages.map((message, index) => (
                         <div
@@ -64,7 +63,11 @@ export default function ChatScreen({
                             }`}
                         >
                             {message.role === 'assistant' && (
-                                 <img src="https://placehold.co/32x32/E2E8F0/333?text=🐼" alt="Panda Icon" className="rounded-full w-8 h-8" />
+                                <img
+                                    src="/trans_panda.jpg"
+                                    alt="Panda Icon"
+                                    className="rounded-full w-12 h-12 object-cover"
+                                />
                             )}
                             <div
                                 className={`max-w-xs md:max-w-md p-4 rounded-2xl ${
@@ -81,10 +84,15 @@ export default function ChatScreen({
                             </div>
                         </div>
                     ))}
+
                     {/* Typing Indicator */}
                     {isLoading && (
                         <div className="flex items-end gap-3 justify-start">
-                            <img src="https://placehold.co/32x32/E2E8F0/333?text=🐼" alt="Panda Icon" className="rounded-full w-8 h-8" />
+                            <img
+                                src="/trans_panda.jpg"
+                                alt="Panda Icon"
+                                className="rounded-full w-12 h-12 object-cover"
+                            />
                             <div className="p-4 bg-white/80 backdrop-blur-md rounded-2xl rounded-bl-none">
                                 <div className="flex items-center gap-1.5">
                                     <span className="h-2 w-2 bg-gray-400 rounded-full animate-bounce delay-0"></span>
@@ -94,10 +102,11 @@ export default function ChatScreen({
                             </div>
                         </div>
                     )}
+
                     <div ref={messagesEndRef} />
                 </div>
 
-                {/* --- FIX: Input Bar now inside the container --- */}
+                {/* Input Bar */}
                 <div className="p-4 pt-2 flex items-center gap-2 flex-shrink-0">
                     <input
                         type="text"
@@ -118,4 +127,3 @@ export default function ChatScreen({
         </div>
     );
 }
-
