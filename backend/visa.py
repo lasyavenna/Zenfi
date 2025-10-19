@@ -17,7 +17,7 @@ VISA_API_KEY = "FRUBU74VSHGADKV3IMIK21-bWGYj-RYLyET1laDZ1iZFhHdYs" # FAKE KEY
 # SHARED SECRET MUST BE DECRYPTED first if you obtained it encrypted
 VISA_SHARED_SECRET = "hUVXQd4UYIWa6VYQfV8poO75MvWzyovGzo6KF35hfSlSejaKEL41WIn/1KWertKyJPazvkTNDIRkcep8/qApNA0zY+SBAXc1AxNkj1lx2z2kq/gyMtUJVm33W8Z0eTNfsN2LVmznAXt4lp2WUrVnAtECXUL3vWfXU5jHUvgf0a8rU9ifByNe9wZwpqDH1LhiOSLa1sYYUhrKa2onvzmWxhnQOgy0B25Bk/8UHwx3fjNZbGUYgF/NV1+HfwZuXOIYBEr/W87RceeJbnfBh0hfapKZ85FIFyaigv6UD0xU/5qNt6Cucr5X6Pq167Y5P70mKscy2zWdooj+HABIgcKf2g==" # FAKE SECRET - REPLACE
 CERT_FILE_PATH = "/Users/sukirtibahlsoni/Downloads/cert.pem" # Use your actual path
-KEY_FILE_Pnow TH = "/Users/sukirtibahlsoni/Downloads/privateKey-2a79a250-fc31-443a-947f-b04829feb59e.pem" # Use your actual path
+KEY_FILE_PATH = "/Users/sukirtibahlsoni/Downloads/privateKey-2a79a250-fc31-443a-947f-b04829feb59e.pem" # Use your actual path
 # --- End Credentials ---
 
 # Visa PAV Sandbox URL
