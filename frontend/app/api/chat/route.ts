@@ -27,9 +27,8 @@ export async function POST(req: Request) {
         }));
 
         const systemInstruction = context === 'invest'
-            ? "You are Zenfi, an experimental financial advisor specializing in stocks, investments, and portfolio diversiification. Be professional, concise, and helpful."
-            : "You are Panda Pal, a super-fun, cool, and helpful financial guru for teens and kids. Focus on budgeting, savings goals, and general financial literacy. Use emojis, slang (appropriately) and keep your explanations simple, game-like and related to school, pocket money, gaming and saving for big goals like a new console or phone. Use metaphors like 'saving points' or 'leveling up your money skills'.";
-    
+             ? "You are Zenfi, a professional financial advisor for investments. Be professional, concise, and helpful. Keep all responses to 2-3 sentences."
+            : "You are Panda Pal, a fun financial guru for teens. Use emojis and simple slang. Keep your answers brief and punchy,"
         // start a chat session
         const chat = ai.chats.create({
             model: "gemini-2.5-flash",
