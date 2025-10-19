@@ -13,7 +13,7 @@ import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
 import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
-import SettingsPage from "./SettingsPage"
+import SettingsPage from "./SettingsPage";
 import InvestSandbox from "./InvestSandbox";
 import Avatar from "./Avatar";
 
@@ -57,8 +57,8 @@ export default function ZenFiWebsite() {
     // state for invest screen
     const [investMessages, setInvestMessages] = useState<Message[]>([
         {
-        role: "assistant",
-        content: "Hello! I'm here to help you learn, invest, and grow. Ask me anything about stocks and investments!",
+            role: "assistant",
+            content: "Hello! I'm here to help you learn, invest, and grow. Ask me anything about stocks and investments!",
         },
     ])
     const [investInputValue, setInvestInputValue] = useState("")
@@ -67,7 +67,7 @@ export default function ZenFiWebsite() {
         if (message.trim()) {
             const newUserMessage: Message = { role: "user", content: message };
             setChatMessages(prev => [...prev, newUserMessage]);
-            
+
             const updatedHistory = [...chatMessages, newUserMessage];
 
             const assistantResponseText = await fetchAIResponse(updatedHistory, 'chat');
@@ -102,10 +102,10 @@ export default function ZenFiWebsite() {
             case "home":
                 return <HomeGoalsScreen />;
             case "wallet":
-                return <WalletScreen />;     
+                return <WalletScreen />;
             case "invest":
                 return (
-                    <InvestScreen 
+                    <InvestScreen
                         messages={investMessages}
                         inputValue={investInputValue}
                         setInputValue={setInvestInputValue}
@@ -124,7 +124,7 @@ export default function ZenFiWebsite() {
 
             case "sandbox":
                 return <InvestSandbox />;
-                
+
             default:
                 return <HomeGoalsScreen />
         }
@@ -161,7 +161,12 @@ export default function ZenFiWebsite() {
                     </button>
                 ))}
                 </div>
+
             </div>
+
+            {/* Settings Icon + Overlay */}
+            <SettingsPage />
+
         </div>
     )
 }
