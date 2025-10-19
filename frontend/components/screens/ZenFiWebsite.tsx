@@ -7,28 +7,28 @@ import {
     TrendingUp,
     MessageCircle,
     Beaker,
+    Settings,
 } from "lucide-react"
 
+// --- FIX: Corrected import paths ---
 import HomeGoalsScreen from './HomeGoalsScreen';
 import WalletScreen from './WalletScreen';
 import InvestScreen from './InvestScreen';
 import ChatScreen from "./ChatScreen";
-import SettingsPage from "./SettingsPage"
-import InvestSandbox from "./InvestSandbox";
+import InvestmentArcade from "./InvestSandbox";
+import SettingsScreen from "./SettingsPage";
+
 
 interface Message {
     role: "user" | "assistant";
     content: string;
 }
 
-// call Gemini API
 const fetchAIResponse = async (messages: Message[], context: 'chat' | 'invest') => {
     try {
         const response = await fetch('/api/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ messages, context }),
         });
 
@@ -46,14 +46,13 @@ const fetchAIResponse = async (messages: Message[], context: 'chat' | 'invest') 
 
 export default function ZenFiWebsite() {
     const [activeScreen, setActiveScreen] = useState("home");
+    const [isChatLoading, setIsChatLoading] = useState(false);
 
-    // state for chat screen
     const [chatMessages, setChatMessages] = useState<Message[]>([
         { role: "assistant", content: "Hi! I'm your personal finance assistant. How can I help you today?" },
     ])
     const [inputValue, setInputValue] = useState("")
 
-    // state for invest screen
     const [investMessages, setInvestMessages] = useState<Message[]>([
         {
         role: "assistant",
@@ -65,15 +64,19 @@ export default function ZenFiWebsite() {
     const handleSendMessage = async (message: string) => {
         if (message.trim()) {
             const newUserMessage: Message = { role: "user", content: message };
-            setChatMessages(prev => [...prev, newUserMessage]);
-            
             const updatedHistory = [...chatMessages, newUserMessage];
+            setChatMessages(updatedHistory);
+            setIsChatLoading(true);
 
             const assistantResponseText = await fetchAIResponse(updatedHistory, 'chat');
-
+            
+            setIsChatLoading(false);
             setChatMessages(prev => [
                 ...prev,
-                { role: "assistant", content: assistantResponseText },
+                {
+                    role: "assistant",
+                    content: assistantResponseText,
+                },
             ]);
         }
     }
@@ -81,36 +84,30 @@ export default function ZenFiWebsite() {
     const handleSendInvestMessage = async (message: string) => {
         if (message.trim()) {
             const newUserMessage: Message = { role: "user", content: message };
-            setInvestMessages(prev => [...prev, newUserMessage]);
-            setInvestInputValue("");
-
             const updatedHistory = [...investMessages, newUserMessage];
-
+            setInvestMessages(updatedHistory);
+            
             const assistantResponseText = await fetchAIResponse(updatedHistory, 'invest');
-
+            
             setInvestMessages(prev => [
                 ...prev,
-                { role: "assistant", content: assistantResponseText },
+                {
+                    role: "assistant",
+                    content: assistantResponseText,
+                },
             ]);
         }
     }
 
-    // screen rendering logic
     const renderScreen = () => {
+        // We no longer need the wrapper divs here, as padding is handled by the main layout
         switch (activeScreen) {
             case "home":
                 return <HomeGoalsScreen />;
             case "wallet":
                 return <WalletScreen />;     
             case "invest":
-                return (
-                    <InvestScreen 
-                        messages={investMessages}
-                        inputValue={investInputValue}
-                        setInputValue={setInvestInputValue}
-                        handleSendMessage={handleSendInvestMessage}
-                    />
-                );
+                return <InvestScreen />;
             case "chat":
                 return (
                     <ChatScreen
@@ -118,26 +115,28 @@ export default function ZenFiWebsite() {
                         inputValue={inputValue}
                         setInputValue={setInputValue}
                         handleSendMessage={handleSendMessage}
+                        isLoading={isChatLoading}
                     />
                 );
-
             case "sandbox":
-                return <InvestSandbox />;
-                
+                return <InvestmentArcade />;
+            case "settings":
+                return <SettingsScreen />;
             default:
-                return <HomeGoalsScreen />
+                return <HomeGoalsScreen />;
         }
     }
 
     return (
         <div
-            className="min-h-screen pb-20 font-sans bg-cover bg-center"
-            style={{ backgroundImage: "url('/panda_bg.jpg')" }}
+            className="h-screen font-sans flex flex-col bg-cover bg-center"
+            style={{ backgroundImage: "url('/panda_bg.jpg.png')" }}
         >
-            {/* Active screen content */}
-            {renderScreen()}
-
-            {/* Bottom Navigation */}
+            {/* --- FIX: Added pb-20 (padding-bottom) to the main scrollable container --- */}
+            {/* This ensures content doesn't get hidden behind the nav bar */}
+            <div className="flex-1 overflow-y-auto p-5 pb-24">
+                {renderScreen()}
+            </div>
             <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-white/60 border-t border-white/40 shadow-lg">
                 <div className="flex justify-around items-center p-4 max-w-md mx-auto">
                 {[
@@ -145,7 +144,8 @@ export default function ZenFiWebsite() {
                     { id: "wallet", icon: Wallet, label: "Wallet" },
                     { id: "invest", icon: TrendingUp, label: "Invest" },
                     { id: "chat", icon: MessageCircle, label: "Chat" },
-                    { id: "sandbox", icon: Beaker, label: "Sandbox" },
+                    { id: "sandbox", icon: Beaker, label: "Arcade" },
+                    { id: "settings", icon: Settings, label: "Settings" },
                 ].map((item) => (
                     <button
                     key={item.id}
@@ -163,3 +163,4 @@ export default function ZenFiWebsite() {
         </div>
     )
 }
+
