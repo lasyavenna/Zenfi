@@ -12,7 +12,7 @@ interface AvatarItem {
 }
 
 const avatars: AvatarItem[] = [
-  { id: 1, name: "Basic Panda", image: "/trans_panda.jpg", requiredSavings: 0 },
+  { id: 1, name: "Basic Panda", image: "/basic_panda.jpg", requiredSavings: 0 },
   { id: 2, name: "Cool Panda", image: "/cool_panda.jpg", requiredSavings: 1000 },
   { id: 3, name: "Golden Panda", image: "/golden_panda.jpg", requiredSavings: 5000 },
 ];
