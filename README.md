@@ -1,39 +1,40 @@
-# 🐼 **Zenfi** — *Zen + Finance*  
+# 🐼 **Zenfi** — Zen + Finance 
 > **Gamify your financial journey. Learn, save, and grow — with your AI Panda Pal.**
 
 ---
 
-## 🌱 Overview
+## 🌱 Overview 
 
 **Zenfi** is a **finance and budgeting app** designed to help **young adults and teens** build strong financial habits through **gamified saving, budgeting, and investing experiences**.  
 With **AI-powered assistants**, **real-time analytics**, and **sandbox investing**, Zenfi turns financial literacy into an *interactive, joyful, and growth-driven* experience.
 
 ---
 
-## 💡 Vision
+## Our Goals
 
-We believe that financial literacy should be **empowering, inclusive, and fun**.  
-Zenfi bridges the gap between **learning and doing** by creating a safe environment where young learners can **budget smartly, invest confidently, and grow mindfully** — all guided by AI companions who make finance *feel like play*.
+We believe that financial literacy should be empowering, inclusive, and fun.  
+Zenfi bridges the gap between learning and doing by creating a safe environment where young learners can budget smartly, invest confidently, and grow mindfully, all guided by AI companions who make finance feel like play.
 
 ---
 
 ## 🧠 Core Features
 
-### 🔐 **Interactive Login Page**
-- Secure authentication with **encryption services**
-- Safe account creation with **Supabase** integration
-- User data protection and **parental controls**
+### **Interactive Login Page**
+- Secure authentication with encryption services
+- Safe account creation with Supabase integration
+- User data protection and parental controls
 
-### 🏡 **Home Page – Goals & Gamified Progress**
-- Set and visualize saving goals *(e.g., “New Car,” “New Phone,” etc.)*  
+### **Home Page – Goals & Gamified Progress**
+- Set and visualize saving goals (e.g., New Car,” “New Phone,” etc.)
 - Track progress with **animated progress bars**
-- Earn rewards for hitting milestones — *finance made fun!*
+- Earn rewards for hitting milestones
+ - finance made fun!
 
-### 💳 **Wallet Page – Smart Spending**
+### **Wallet Page – Smart Spending**
 - Connect **PayPal** and **cards**
 - Access **real-time analytics** of spending habits
 - Track **recent transactions** securely  
-- AI insights on *“Where your money goes”*
+- AI insights on where your money goes
 
 ### 📈 **Invest Page – Learn to Invest**
 - **Google Gemini-powered investment assistant**
@@ -48,8 +49,8 @@ Zenfi bridges the gap between **learning and doing** by creating a safe environm
 ### 🐼 **Panda Pal Page – Your AI Budgeting Buddy**
 - Meet **Panda Pal**, your friendly financial coach  
 - Ask questions like:
-  - *“How much can I spend this month and still meet my saving goals?”*
-  - *“How can I save more based on my spending habits?”*  
+  - How much can I spend this month and still meet my saving goals?”
+  - “How can I save more based on my spending habits?”
 - Built with **Gemini API**, Panda Pal delivers personalized, human-like financial insights
 
 ### ⚙️ **Settings Page – Control & Security**
@@ -84,16 +85,16 @@ Zenfi bridges the gap between **learning and doing** by creating a safe environm
 
 ---
 
-## 🎮 Gamified Learning Experience
+## Gamified Learning Experience
 
-- 🪙 **Earn badges** for saving milestones  
-- 📊 **Unlock levels** as you hit investment goals  
-- 💬 **AI feedback loops** that teach and reward consistency  
+-  **Earn badges** for saving milestones  
+-  **Unlock levels** as you hit investment goals  
+-  **AI feedback loops** that teach and reward consistency  
 - 🐼 **Mascot:** *Panda holding money* — symbolizing *growth and fortune*, inspired by bamboo’s role in prosperity across cultures  
 
 ---
 
-## 🔒 Security & Inclusivity
+## Security & Inclusivity
 
 Zenfi prioritizes **safety, privacy, and accessibility**:
 - **Encrypted user authentication** via Supabase  
@@ -103,17 +104,17 @@ Zenfi prioritizes **safety, privacy, and accessibility**:
 
 ---
 
-## 🚀 Why Zenfi Stands Out
+##  Why Zenfi Stands Out
 
-- 🧘 **Human-centered design** — crafted for real people learning real finance  
-- 💬 **AI that teaches, not replaces** — Gemini helps users *understand* their money  
-- 🎮 **Play to learn** — gamification makes budgeting and investing feel rewarding  
-- 🛡️ **Safe to explore** — learn with virtual money, before the real world  
-- 💳 **Modern payments integration** — connecting allowance, spending, and saving in one seamless app
+- **Human-centered design** — crafted for real people learning real finance  
+- **AI that teaches, not replaces** — Gemini helps users *understand* their money  
+- **Play to learn** — gamification makes budgeting and investing feel rewarding  
+- **Safe to explore** — learn with virtual money, before the real world  
+- **Modern payments integration** — connecting allowance, spending, and saving in one seamless app
 
 ---
 
-## 🧭 Project Alignment
+## Project Alignment
 
 Zenfi is built to **empower young people** to take control of their financial journeys.  
 It **fosters growth, belonging, and financial confidence** through play, learning, and smart payments.  
