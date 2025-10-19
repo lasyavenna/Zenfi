@@ -1,5 +1,3 @@
-// app/screens/WalletScreen.tsx
-
 "use client";
 import React, { useState } from 'react';
 import {
@@ -18,6 +16,12 @@ import {
   CreditCard,
   Plus,
 } from 'lucide-react';
+
+interface Card {
+  number: string;
+  expiry: string;
+  type: 'Visa' | 'Mastercard' | 'Other';
+}
 
 const spendingData = [
   { day: 'Mon', amount: 65 },
@@ -61,7 +65,68 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
 };
 
 export default function WalletScreen() {
+  const [cards, setCards] = useState<Card[]>([
+    { number: '•••• •••• •••• 1234', expiry: '12/26', type: 'Visa' },
+  ]);
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAddCard = async () => {
+    if (cardNumber.length !== 16 || !/^\d{16}$/.test(cardNumber)) {
+      alert('Please enter a valid 16-digit card number.');
+      return;
+    }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
+      alert('Please enter expiry date in MM/YY format.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://127.0.0.1:5001/api/validate-card', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cardNumber: cardNumber,
+          cardExpiry: cardExpiry,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Card validation failed.');
+      }
+
+      alert('Success! Card validated via Visa API.');
+
+      const newCard: Card = {
+        number: `•••• •••• •••• ${cardNumber.slice(-4)}`,
+        expiry: cardExpiry,
+        type: 'Visa',
+      };
+      setCards([...cards, newCard]);
+
+      setCardNumber('');
+      setCardExpiry('');
+      setIsAddingCard(false);
+
+    } catch (error) {
+      console.error("Validation Error:", error);
+      if (error instanceof Error) {
+        alert(`Error: ${error.message}`);
+      } else {
+        alert('An unknown error occurred during validation.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="p-5">
@@ -177,28 +242,43 @@ export default function WalletScreen() {
             <h2 className="text-xl font-semibold mb-4">Add a New Card</h2>
             <input
               type="text"
+              inputMode="numeric"
               className="w-full p-3 border border-gray-300 rounded-md mb-3"
-              placeholder="Card Number"
+              placeholder="Card Number (16 digits)"
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, ''))}
               maxLength={16}
+              disabled={isLoading}
             />
             <input
               type="text"
               className="w-full p-3 border border-gray-300 rounded-md mb-4"
               placeholder="MM/YY"
+              value={cardExpiry}
+              onChange={(e) => {
+                  let value = e.target.value.replace(/\D/g, '');
+                  if (value.length > 2) {
+                      value = value.slice(0, 2) + '/' + value.slice(2);
+                  }
+                  setCardExpiry(value);
+              }}
               maxLength={5}
+              disabled={isLoading}
             />
             <div className="flex gap-4">
               <button
                 onClick={() => setIsAddingCard(false)}
                 className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-md font-semibold hover:bg-gray-300"
+                disabled={isLoading}
               >
                 Cancel
               </button>
               <button
-                onClick={() => setIsAddingCard(false)}
-                className="flex-1 bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700"
+                onClick={handleAddCard}
+                className={`flex-1 bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isLoading}
               >
-                Add Card
+                {isLoading ? 'Validating...' : 'Add Card'}
               </button>
             </div>
           </div>
