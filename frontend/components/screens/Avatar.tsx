@@ -34,7 +34,6 @@ export default function AvatarPage() {
           onClick={() => router.push("/")} // ✅ go home only when clicked
           className="p-2 bg-white/50 rounded-full hover:shadow-lg transition-all"
         >
-          <ArrowLeft className="w-6 h-6 text-black" />
         </button>
         <h1 className="text-3xl font-bold text-black">Avatar Collection 🐼</h1>
       </div>

@@ -46,7 +46,10 @@ export default function ChatScreen({
             {/* Header */}
             <div className="p-6 pt-0 flex-shrink-0 text-center">
                 <div>
-                    <h1 className="text-2xl font-bold text-black">Ask Panda Pal</h1>
+                    <h1 className="text-2xl font-bold text-black">
+                        <span className="text-3xl mr-2 inline-block">🐼</span>
+                        Ask Panda Pal
+                    </h1>
                     <p className="text-sm text-gray-600">Your personal finance guru</p>
                 </div>
             </div>
