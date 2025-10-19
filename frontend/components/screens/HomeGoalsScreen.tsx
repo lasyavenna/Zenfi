@@ -1,5 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Plus } from "lucide-react";
+import CreateGoalModal from './CreateGoalModal'; // Import the new modal component
 
 interface Goal {
     name: string;
@@ -8,14 +11,15 @@ interface Goal {
     icon: string;
 }
 
-const goalsData: Goal[] = [
+// Initial static data
+const initialGoalsData: Goal[] = [
     { name: "Vacation Fund", current: 3200, target: 5000, icon: "✈️"},
     { name: "Emergency Savings", current: 8500, target: 10000, icon: "🛡️"},
     { name: "New Car", current: 12000, target: 25000, icon: "🚗"},
     { name: "Home Renovation", current: 4500, target: 15000, icon: "🏠"},
 ];
 
-// utility components
+// utility components (CircularProgress component is unchanged)
 const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ percentage, size = 120 }) => {
     const radius = (size - 20) / 2
     const circumference = 2 * Math.PI * radius
@@ -58,6 +62,17 @@ const CircularProgress: React.FC<{ percentage: number; size?: number }> = ({ per
 
 // main screen component
 export default function HomeGoalsScreen() {
+    // 1. Manage the list of goals
+    const [goals, setGoals] = useState<Goal[]>(initialGoalsData);
+    // 2. Manage modal visibility
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // 3. Logic to add a new goal
+    const handleCreateGoal = (newGoal: Omit<Goal, 'icon'> & { icon: string }) => {
+        setGoals(prevGoals => [...prevGoals, newGoal]);
+        setIsModalOpen(false); // Close modal after creating
+    };
+
     return (
         <div className="p-6 space-y-6 animate-in fade-in duration-300">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -70,13 +85,16 @@ export default function HomeGoalsScreen() {
                 <p className="text-lg text-black/70">Let's check your financial goals</p>
             </div>
 
-            <button className="w-full backdrop-blur-md bg-white/40 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
+            <button 
+                onClick={() => setIsModalOpen(true)} // Open modal on click
+                className="w-full backdrop-blur-md bg-white/40 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold"
+            >
                 <Plus className="w-5 h-5" />
                 Create a New Goal
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {goalsData.map((goal, index) => {
+                {goals.map((goal, index) => { // Use 'goals' state here
                     const percentage = Math.round((goal.current / goal.target) * 100)
                     return (
                         <div
@@ -103,6 +121,13 @@ export default function HomeGoalsScreen() {
                     )
                 })}
             </div>
+
+            {/* Modal for creating a new goal */}
+            <CreateGoalModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onCreate={handleCreateGoal}
+            />
         </div>
     );
 }
