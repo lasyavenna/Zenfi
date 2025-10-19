@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
-import { Send } from "lucide-react";
+import React, { useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Send } from 'lucide-react';
 
 interface Message {
     role: "user" | "assistant";
@@ -13,6 +14,7 @@ interface ChatScreenProps {
     inputValue: string;
     setInputValue: React.Dispatch<React.SetStateAction<string>>;
     handleSendMessage: (message: string) => void;
+    isLoading: boolean;
 }
 
 export default function ChatScreen({
@@ -20,72 +22,100 @@ export default function ChatScreen({
     inputValue,
     setInputValue,
     handleSendMessage,
+    isLoading
 }: ChatScreenProps) {
+    const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, isLoading]);
+
+
     const localHandleSendMessage = () => {
         if (inputValue.trim()) {
             handleSendMessage(inputValue);
             setInputValue("");
         }
-    };
+    }
 
     return (
-        <div className="min-h-screen flex flex-col p-6 space-y-6 font-sans text-black">
-            <div className="flex flex-col items-center space-y-3">
-                {/* Panda image with subtle glow */}
-                <div className="relative">
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-400/60 via-pink-300/60 to-pink-500/60 blur-2xl rounded-full" />
-                    <img
-                        src="/trans_panda.jpg"
-                        alt="Panda Pal"
-                        className="w-40 h-40"
-                    />
-                </div>
+        <div className="h-full flex flex-col">
+            {/* Header */}
+            <div className="p-6 pt-0 flex-shrink-0 text-center">
+                 <div>
+                    <h1 className="text-2xl font-bold text-black">Ask Panda Pal</h1>
+                    <p className="text-sm text-gray-600">Your personal finance guru</p>
+                 </div>
+            </div>
 
-                {/* Title text */}
-                <h1 className="text-4xl font-bold text-center text-black drop-shadow-md">
-                    Ask Panda Pal
-                </h1>
-
-                <div className="flex-1 bg-white/45 rounded-3xl shadow-2xl p-6 flex flex-col overflow-hidden border border-white/40">
-                    {/* Chat History */}
-                    <div className="flex-1 overflow-y-auto space-y-3 mb-4">
-                        {messages.map((message, index) => (
+            {/* --- FIX: Main container for chat messages and input --- */}
+            <div className="bg-white/40 backdrop-blur-md rounded-2xl shadow-lg flex-1 flex flex-col overflow-hidden">
+                {/* Chat Messages - this area now scrolls */}
+                <div className="flex-1 space-y-4 overflow-y-auto p-4 pr-2">
+                    {messages.map((message, index) => (
+                        <div
+                            key={index}
+                            className={`flex items-end gap-3 ${
+                                message.role === 'user' ? 'justify-end' : 'justify-start'
+                            }`}
+                        >
+                            {message.role === 'assistant' && (
+                                 <img src="https://placehold.co/32x32/E2E8F0/333?text=🐼" alt="Panda Icon" className="rounded-full w-8 h-8" />
+                            )}
                             <div
-                                key={index}
-                                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
-                                    }`}
+                                className={`max-w-xs md:max-w-md p-4 rounded-2xl ${
+                                    message.role === 'user'
+                                        ? 'bg-purple-500 text-white rounded-br-none'
+                                        : 'bg-white/80 text-black rounded-bl-none'
+                                }`}
                             >
-                                <div
-                                    className={`max-w-[80%] p-3 rounded-2xl shadow-sm ${message.role === "user"
-                                            ? "bg-gradient-to-r from-purple-500 to-[#fff157] text-white"
-                                            : "bg-white text-black border border-white/50"
-                                        }`}
-                                >
-                                    {message.content}
+                                <div className="prose prose-sm">
+                                    <ReactMarkdown>
+                                        {message.content}
+                                    </ReactMarkdown>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
+                    {/* Typing Indicator */}
+                    {isLoading && (
+                        <div className="flex items-end gap-3 justify-start">
+                            <img src="https://placehold.co/32x32/E2E8F0/333?text=🐼" alt="Panda Icon" className="rounded-full w-8 h-8" />
+                            <div className="p-4 bg-white/80 backdrop-blur-md rounded-2xl rounded-bl-none">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="h-2 w-2 bg-gray-400 rounded-full animate-bounce delay-0"></span>
+                                    <span className="h-2 w-2 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                                    <span className="h-2 w-2 bg-gray-400 rounded-full animate-bounce delay-300"></span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
 
-                    {/* Input Section */}
-                    <div className="flex gap-2">
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && localHandleSendMessage()}
-                            placeholder="Ask me about budgeting or financial advice..."
-                            className="flex-1 px-4 py-3 rounded-full bg-white/90 text-black placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-sm"
-                        />
-                        <button
-                            onClick={localHandleSendMessage}
-                            className="p-3 rounded-full bg-gradient-to-r from-purple-500 to-[#fff157] text-white hover:shadow-lg transition-all"
-                        >
-                            <Send className="w-5 h-5" />
-                        </button>
-                    </div>
+                {/* --- FIX: Input Bar now inside the container --- */}
+                <div className="p-4 pt-2 flex items-center gap-2 flex-shrink-0">
+                    <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && localHandleSendMessage()}
+                        placeholder="Ask about budgeting..."
+                        className="flex-1 p-4 bg-white/80 backdrop-blur-md rounded-full border-none focus:ring-2 focus:ring-purple-400"
+                    />
+                    <button
+                        onClick={localHandleSendMessage}
+                        className="p-4 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all"
+                    >
+                        <Send className="w-6 h-6" />
+                    </button>
                 </div>
             </div>
         </div>
     );
 }
+
