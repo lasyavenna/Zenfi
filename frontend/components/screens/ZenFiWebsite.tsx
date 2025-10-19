@@ -7,6 +7,8 @@ import {
     TrendingUp,
     MessageCircle,
     Beaker,
+    PersonStanding,
+    BoxIcon,
 } from "lucide-react"
 
 import HomeGoalsScreen from './HomeGoalsScreen';
@@ -146,8 +148,8 @@ export default function ZenFiWebsite() {
                     { id: "wallet", icon: Wallet, label: "Wallet" },
                     { id: "invest", icon: TrendingUp, label: "Invest" },
                     { id: "chat", icon: MessageCircle, label: "Chat" },
-                    { id: "sandbox", icon: Beaker, label: "Sandbox" },
-                    { id: "avatar", icon: Beaker, label: "Avatar" },
+                    { id: "sandbox", icon: BoxIcon, label: "Sandbox" },
+                    { id: "avatar", icon: PersonStanding, label: "Avatar" },
                 ].map((item) => (
                     <button
                     key={item.id}
