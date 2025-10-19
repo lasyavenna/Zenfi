@@ -1,110 +1,209 @@
-import React from 'react';
-import { CreditCard, DollarSign, ShoppingBag, Coffee, Car, Utensils, ArrowDownRight, Plus } from "lucide-react";
+// app/screens/WalletScreen.tsx
 
-const paymentMethods = [
-    { type: "Visa", last4: "4242", expiry: "12/25", color: "from-purple-400 to-pink-400" },
-    { type: "PayPal", email: "user@email.com", color: "from-blue-400 to-cyan-400"},
+"use client";
+import React, { useState } from 'react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
+import {
+  ShoppingBag,
+  Coffee,
+  DollarSign,
+  Fuel,
+  CreditCard,
+  Plus,
+} from 'lucide-react';
+
+const spendingData = [
+  { day: 'Mon', amount: 65 },
+  { day: 'Tue', amount: 85.32 },
+  { day: 'Wed', amount: 12.50 },
+  { day: 'Thu', amount: 45.00 },
+  { day: 'Fri', amount: 130.10 },
+  { day: 'Sat', amount: 75.00 },
+  { day: 'Sun', amount: 20.00 },
 ];
 
-const transactions = [
-    { name: "Grocery Store", amount: -85.32, date: "Today", icon: ShoppingBag, color: "text-green-600" },
-    { name: "Coffee Shop", amount: -12.5, date: "Today", icon: Coffee, color: "text-amber-600" },
-    { name: "Salary Deposit", amount: 3500.0, date: "Yesterday", icon: ArrowDownRight, color: "text-emerald-600" },
-    { name: "Gas Station", amount: -45.0, date: "Yesterday", icon: Car, color: "text-blue-600" },
-    { name: "Restaurant", amount: -67.8, date: "2 days ago", icon: Utensils, color: "text-orange-600" },
+const transactionsData = [
+  {
+    icon: ShoppingBag, name: 'Grocery Store', time: 'Today', amount: -85.32,
+    color: 'text-blue-500', bg: 'bg-blue-100',
+  },
+  {
+    icon: Coffee, name: 'Coffee Shop', time: 'Today', amount: -12.50,
+    color: 'text-orange-500', bg: 'bg-orange-100',
+  },
+  {
+    icon: DollarSign, name: 'Salary Deposit', time: 'Yesterday', amount: 3500.00,
+    color: 'text-green-500', bg: 'bg-green-100',
+  },
+  {
+    icon: Fuel, name: 'Gas Station', time: 'Yesterday', amount: -45.00,
+    color: 'text-red-500', bg: 'bg-red-100',
+  },
 ];
+
+const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?: any[], label?: string }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+        <p className="text-sm font-medium text-gray-500">{label}</p>
+        <p className="text-lg font-bold text-gray-900">${payload[0].value.toFixed(2)}</p>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function WalletScreen() {
-    return (
-        <div
-            className="min-h-screen bg-cover bg-center p-6 space-y-6 animate-in fade-in duration-300"
-            style={{ backgroundImage: "url('/panda_bg.jpg.png')" }}
-        >
-            <h1 className="text-4xl font-bold text-black">Wallet</h1>
+  const [isAddingCard, setIsAddingCard] = useState(false);
 
-            {/* Payment Methods Section */}
-            <div className="space-y-3">
-                <h2 className="text-xl font-bold text-black">Payment Methods</h2>
-                {paymentMethods.map((method, index) => (
-                    <div
-                        key={index}
-                        className={`backdrop-blur-md bg-gradient-to-br ${method.color} rounded-2xl p-6 shadow-lg text-white`}
-                    >
-                        {method.type === "Visa" ? (
-                            <>
-                                <div className="flex justify-between items-start mb-8">
-                                    <CreditCard className="w-10 h-10" />
-                                    <span className="text-sm font-semibold">VISA</span>
-                                </div>
-                                <div className="space-y-2">
-                                    <p className="text-2xl tracking-wider">•••• •••• •••• {method.last4}</p>
-                                    <div className="flex justify-between text-sm">
-                                        <span>Expires {method.expiry}</span>
-                                    </div>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className="flex justify-between items-start mb-4">
-                                    <DollarSign className="w-10 h-10" />
-                                    <span className="text-sm font-semibold">PayPal</span>
-                                </div>
-                                <p className="text-lg">{method.email}</p>
-                            </>
-                        )}
-                    </div>
-                ))}
-                <button className="w-full backdrop-blur-md bg-white/45 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-black font-semibold">
-                    <Plus className="w-6 h-6" />
-                    Add New Card
-                </button>
-            </div>
+  return (
+    <div className="p-5">
+      <h1 className="text-3xl font-bold mb-5 text-gray-800">
+        Wallet 💳
+      </h1>
 
-            {/* Spending Analytics Section */}
-            <div className="space-y-3">
-                <h2 className="text-xl font-bold text-black">Spending Analytics</h2>
-                <div className="backdrop-blur-md bg-white/45 rounded-3xl p-6 shadow-lg">
-                    <div className="h-48 flex items-end justify-around gap-2">
-                        {[65, 45, 80, 55, 70, 60, 85].map((height, index) => (
-                            <div key={index} className="flex-1 flex flex-col items-center gap-2">
-                                <div
-                                    className="w-full bg-gradient-to-t from-purple-400 to-[#fff157] rounded-t-lg transition-all duration-500 hover:opacity-80"
-                                    style={{ height: `${height}%` }}
-                                />
-                                <span className="text-xs text-black/60">
-                                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index]}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+      <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-lg p-6 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Payment Methods
+        </h2>
+        <div className="space-y-3">
+          <div className="bg-gradient-to-r from-purple-400 to-pink-500 text-white p-5 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <CreditCard className="w-7 h-7" />
+              <span className="font-semibold text-sm">VISA</span>
             </div>
-
-            {/* Recent Transactions Section */}
-            <div className="space-y-3">
-                <h2 className="text-xl font-bold text-black">Recent Transactions</h2>
-                <div className="backdrop-blur-md bg-white/45 rounded-3xl p-4 shadow-lg space-y-2">
-                    {transactions.map((transaction, index) => (
-                        <div
-                            key={index}
-                            className="flex items-center justify-between p-3 hover:bg-white/50 rounded-xl transition-all"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className={`p-2 rounded-full bg-white/70 ${transaction.color}`}>
-                                    <transaction.icon className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-black">{transaction.name}</p>
-                                    <p className="text-sm text-black/60">{transaction.date}</p>
-                                </div>
-                            </div>
-                            <span className={`font-bold ${transaction.amount > 0 ? "text-green-600" : "text-black"}`}>
-                                {transaction.amount > 0 ? "+" : ""}${Math.abs(transaction.amount).toFixed(2)}
-                            </span>
-                        </div>
-                    ))}
-                </div>
+            <p className="text-xl font-mono tracking-widest mb-1">
+              •••• •••• •••• 4242
+            </p>
+            <span className="text-xs font-light">Expires 12/25</span>
+          </div>
+          
+          <div className="bg-gradient-to-r from-blue-400 to-cyan-500 text-white p-5 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <DollarSign className="w-7 h-7" />
+              <span className="font-semibold text-sm">PayPal</span>
             </div>
+            <p className="text-lg font-medium">
+              user@email.com
+            </p>
+          </div>
+          
+          <button
+            onClick={() => setIsAddingCard(true)}
+            className="w-full flex items-center justify-center gap-2 bg-gray-100/70 text-gray-700 font-medium py-3 px-5 rounded-xl shadow-sm hover:bg-gray-200 transition-all"
+          >
+            <Plus className="w-5 h-5" />
+            Add New Card
+          </button>
         </div>
-    );
+      </div>
+
+      <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-lg p-6 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Spending Analytics
+        </h2>
+        <div className="h-48 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={spendingData}
+              margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
+            >
+              <XAxis
+                dataKey="day"
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: '#6B7280' }}
+              />
+              <YAxis
+                hide={true}
+                domain={[0, 'dataMax + 20']}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: 'rgba(239, 246, 255, 0.5)' }}
+              />
+              <Bar
+                dataKey="amount"
+                fill="#8884d8"
+                radius={[8, 8, 8, 8]}
+                className="fill-purple-400"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-lg p-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Recent Transactions
+        </h2>
+        <div className="space-y-4">
+          {transactionsData.map((tx, index) => {
+            const isDeposit = tx.amount > 0;
+            return (
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-full ${tx.bg}`}>
+                    <tx.icon className={`w-5 h-5 ${tx.color}`} />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">{tx.name}</p>
+                    <p className="text-sm text-gray-500">{tx.time}</p>
+                  </div>
+                </div>
+                <p
+                  className={`font-semibold ${
+                    isDeposit ? 'text-green-600' : 'text-gray-900'
+                  }`}
+                >
+                  {isDeposit ? '+' : ''}${Math.abs(tx.amount).toFixed(2)}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      
+      {isAddingCard && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm">
+            <h2 className="text-xl font-semibold mb-4">Add a New Card</h2>
+            <input
+              type="text"
+              className="w-full p-3 border border-gray-300 rounded-md mb-3"
+              placeholder="Card Number"
+              maxLength={16}
+            />
+            <input
+              type="text"
+              className="w-full p-3 border border-gray-300 rounded-md mb-4"
+              placeholder="MM/YY"
+              maxLength={5}
+            />
+            <div className="flex gap-4">
+              <button
+                onClick={() => setIsAddingCard(false)}
+                className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-md font-semibold hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setIsAddingCard(false)}
+                className="flex-1 bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700"
+              >
+                Add Card
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

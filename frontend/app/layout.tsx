@@ -13,14 +13,16 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    return (
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    );
-  }
-  
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={`font-sans antialiased`}>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  )
+}
